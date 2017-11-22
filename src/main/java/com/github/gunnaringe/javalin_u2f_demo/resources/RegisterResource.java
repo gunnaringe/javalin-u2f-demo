@@ -39,7 +39,7 @@ public class RegisterResource {
         context.renderFreemarker("view/register/register.ftl", model);
     }
 
-    public void post(Context context) throws CertificateException, NoSuchFieldException {
+    public void finish(Context context) throws CertificateException, NoSuchFieldException {
         String username = Objects.requireNonNull(context.formParam("username"), "username cannot be null");
         String response = Objects.requireNonNull(context.formParam("tokenResponse"), "username cannot be null");
 

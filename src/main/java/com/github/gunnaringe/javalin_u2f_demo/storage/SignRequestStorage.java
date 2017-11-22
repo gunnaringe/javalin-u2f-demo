@@ -1,10 +1,6 @@
 package com.github.gunnaringe.javalin_u2f_demo.storage;
 
-import com.google.common.collect.ArrayListMultimap;
-import com.google.common.collect.Multimap;
-import com.yubico.u2f.data.DeviceRegistration;
 import com.yubico.u2f.data.messages.SignRequestData;
-import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 

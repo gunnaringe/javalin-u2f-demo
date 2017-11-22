@@ -31,18 +31,17 @@ public class Main {
                 .port(8080)
                 .routes(() -> {
 
-                    path("health", () -> {
-                        get(context -> context.json("Healthy"));
-                    });
+                    path("health", () ->
+                            get(context -> context.json("Healthy")));
 
                     path("u2f", () -> {
                         path("/register", () -> {
                             get(registerResourceResource::start);
-                            post(registerResourceResource::post);
+                            post(registerResourceResource::finish);
                         });
                         path("/auth", () -> {
                             get(authResourceResource::start);
-                            post(authResourceResource::post);
+                            post(authResourceResource::finish);
                         });
                     });
                 })

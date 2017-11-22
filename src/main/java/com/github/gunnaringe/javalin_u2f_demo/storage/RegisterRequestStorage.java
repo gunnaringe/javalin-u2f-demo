@@ -1,12 +1,8 @@
 package com.github.gunnaringe.javalin_u2f_demo.storage;
 
-import com.google.common.cache.Cache;
-import com.google.common.cache.CacheBuilder;
 import com.yubico.u2f.data.messages.RegisterRequestData;
-import com.yubico.u2f.data.messages.SignRequestData;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.concurrent.TimeUnit;
 
 public class RegisterRequestStorage {
     // TODO: Store in Redis (or memcached or whatever)

@@ -47,7 +47,7 @@ public class AuthResource {
         context.renderFreemarker("view/auth/authenticate.ftl", model);
     }
 
-    public void post(Context context) {
+    public void finish(Context context) {
         String username = context.formParam("username");
         SignResponse signResponse = SignResponse.fromJson(Objects.requireNonNull(context.formParam("tokenResponse"), "tokenResponse cannot be null"));
         SignRequestData authenticateRequest = requestStorage.remove(signResponse.getRequestId());
