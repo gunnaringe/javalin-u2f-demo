@@ -6,8 +6,14 @@ import com.github.gunnaringe.javalin_u2f_demo.storage.RegisterRequestStorage;
 import com.github.gunnaringe.javalin_u2f_demo.storage.SignRequestStorage;
 import com.github.gunnaringe.javalin_u2f_demo.storage.UserStorage;
 import io.javalin.Javalin;
+import io.javalin.embeddedserver.EmbeddedServer;
+import io.javalin.embeddedserver.jetty.EmbeddedJettyFactory;
 import lombok.extern.slf4j.Slf4j;
 import lombok.val;
+import org.eclipse.jetty.server.Connector;
+import org.eclipse.jetty.server.Server;
+import org.eclipse.jetty.server.ServerConnector;
+import org.eclipse.jetty.util.ssl.SslContextFactory;
 
 import static io.javalin.ApiBuilder.get;
 import static io.javalin.ApiBuilder.path;
@@ -18,7 +24,6 @@ public class Main {
 
     public static final String APP_ID = "https://localhost:8443";
 
-
     public static void main(final String[] args) {
         final UserStorage userStorage = new UserStorage();
         final SignRequestStorage signRequestStorage = new SignRequestStorage();
@@ -28,9 +33,15 @@ public class Main {
         final RegisterResource registerResourceResource = new RegisterResource(userStorage, registerRequestStorage, APP_ID);
 
         val app = Javalin.create()
-                .port(8080)
+                // For http instead of https; replace .embeddedServer() with `port(8080)`
+                .embeddedServer(new EmbeddedJettyFactory(() -> {
+                    Server server = new Server();
+                    ServerConnector sslConnector = new ServerConnector(server, getSslContextFactory());
+                    sslConnector.setPort(8443);
+                    server.setConnectors(new Connector[]{sslConnector});
+                    return server;
+                }))
                 .routes(() -> {
-
                     path("health", () ->
                             get(context -> context.json("Healthy")));
 
@@ -48,5 +59,12 @@ public class Main {
                 .enableStaticFiles("/static")
                 .start();
         log.info("Started on port: {}", app.port());
+    }
+
+    private static SslContextFactory getSslContextFactory() {
+        SslContextFactory sslContextFactory = new SslContextFactory();
+        sslContextFactory.setKeyStorePath(EmbeddedServer.class.getResource("/keystore.jks").toExternalForm());
+        sslContextFactory.setKeyStorePassword("changeit");
+        return sslContextFactory;
     }
 }
