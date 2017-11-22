@@ -42,6 +42,7 @@ public class RegisterResource {
     public void post(Context context) throws CertificateException, NoSuchFieldException {
         String username = Objects.requireNonNull(context.formParam("username"), "username cannot be null");
         String response = Objects.requireNonNull(context.formParam("tokenResponse"), "username cannot be null");
+
         RegisterResponse registerResponse = RegisterResponse.fromJson(response);
         RegisterRequestData registerRequestData = requestStorage.remove(registerResponse.getRequestId());
         DeviceRegistration registration = u2f.finishRegistration(registerRequestData, registerResponse);
