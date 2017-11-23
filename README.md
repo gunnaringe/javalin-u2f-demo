@@ -2,12 +2,23 @@
 
 This is based on the demo Java implementation by Yubico
 
-# U2F requires https connection to work
+This is intended as a quick demo, so everything is stored in-memory.
+Feel free to make a pull request if you want to improve something.
 
-U2F will not work if the site is not hosted on HTTPS.
+## Note
+U2F will not work unless hosted on https.
 
-You could test it on localhost by adding a https proxy.
+As we host on localhost, please just ignore any certificate warnings ;)
+It is using a shitty self-sign certificate included in the repo, so please don't trust it...
+
+## Build and run using maven
 ```shell
-sudo apt install stunnel
-cd stunnel; stunnel stunnel.conf
+mvn package && java -jar target/hackathon.jar
 ```
+
+## Usage
+### Register new device
+https://localhost:8443/demo/register.html
+
+### Login
+https://localhost:8443/demo/login.html
